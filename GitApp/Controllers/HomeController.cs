@@ -54,5 +54,48 @@ namespace GitApp.Controllers
             }
             return Content("Не корректные данные");
         }
+
+        //выводим форму с данными об объекте
+        [HttpGet]
+        [ActionName("Delete")]
+        public async Task<IActionResult> ConfirmDelete(int? id)
+        {
+            //если id не равен null
+            if (id != null)
+            {
+                //находим юзера по id
+                User user = await db.Users.FirstOrDefaultAsync(p => p.Id == id);
+                //если юзер не равен null
+                if (user != null)
+                    //выводим юзера в представление
+                    return View(user);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            //если id не равен null
+            if (id != null)
+            {
+                //ищем юзера по id
+                User user = await db.Users.FirstOrDefaultAsync(p => p.Id == id);
+                //если юзер не равен null
+                if (user != null)
+                {
+                    //удаляем юзера
+                    db.Users.Remove(user);
+                    //выполняем удаление юзера из бд
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                //User user = new User { Id = id.Value };
+                //db.Entry(user).State = EntityState.Deleted;
+                //await db.SaveChangesAsync();
+                //return RedirectToAction("Index");
+            }
+            return NotFound();
+        }
     }
 }
