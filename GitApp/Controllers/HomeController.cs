@@ -119,5 +119,19 @@ namespace GitApp.Controllers
             }
             return Content("Не корректные данные");
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            //если id не равен нулю
+            if (id != null)
+            {
+                //находим юзера по id
+                User user = await db.Users.FirstOrDefaultAsync(p => p.Id == id);
+                //если юзер не равен null
+                if (user != null)
+                    //выводим юзера в представление
+                    return View(user);
+            }
+            return NotFound();
+        }
     }
 }
