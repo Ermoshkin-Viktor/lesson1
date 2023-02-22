@@ -1,0 +1,33 @@
+﻿@model User
+
+@{
+    ViewBag.Title = "Добавление сотрудника";
+}
+
+<h3>Добавление сотрудника</h3>
+
+<form method="post" asp-antiforgery="true" asp-action="Create" asp-controller="Home">
+    <div>
+        <div class="validation" asp-validation-summary="All" ></div>
+        <div>
+            <label asp-for="Name">Имя</label>
+            <input type="text" asp-for="Name"/>
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div>
+            <label asp-for="Age">Возраст</label>
+            <input type="number" asp-for="Name"/>
+            <span asp-validation-for="Age"></span>
+        </div>
+        <div>
+            <input type="submit" value="Сохранить"/>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

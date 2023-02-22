@@ -97,5 +97,27 @@ namespace GitApp.Controllers
             }
             return NotFound();
         }
+        //добавление пользователя
+        [HttpGet]
+        public IActionResult Create()
+        {
+            //выводим представление с формой ввода
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(User user)
+        {
+            //если модель валидна и не равна null
+            if (ModelState.IsValid && user != null)
+            {
+                //добавляем пользователя
+                // для данных из объекта user формируется sql-выражение INSERT(добавление данных)
+                db.Users.Add(user);
+                //выполняем выражение INSERT, тем самым добавляя данные в базу данных.
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return Content("Не корректные данные");
+        }
     }
 }
